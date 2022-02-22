@@ -5,6 +5,7 @@ plugins {
 }
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.1")
 }
 repositories {
     mavenCentral()
@@ -21,5 +22,5 @@ compileTestKotlin.kotlinOptions {
 tasks.register("out", JavaExec::class) {
     standardInput = System.`in`
     classpath = sourceSets.main.get().runtimeClasspath
-    mainClass.set("OutKt")
+    mainClass.set("works.ignition.certbotresource.OutKt")
 }
