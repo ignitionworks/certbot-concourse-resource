@@ -1,4 +1,4 @@
-package works.ignition.certbotresource.out
+package works.ignition.certbotresource
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
