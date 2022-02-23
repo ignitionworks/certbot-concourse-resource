@@ -5,12 +5,15 @@ import works.ignition.certbotresource.out.Request
 import works.ignition.certbotresource.out.Response
 
 fun main() =
-    jacksonObjectMapper().readValue(
-        readln(),
-        Request::class.java
-    ).let { request ->
-        println(jacksonObjectMapper().writeValueAsString(process(request)))
-    }
+    println(
+        jacksonObjectMapper()
+            .writeValueAsString(
+                process(
+                    jacksonObjectMapper()
+                        .readValue(readln(), Request::class.java)
+                )
+            )
+    )
 
 fun process(request: Request): Response =
     Response(
