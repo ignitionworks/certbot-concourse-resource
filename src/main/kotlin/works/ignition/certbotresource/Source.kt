@@ -9,4 +9,6 @@ data class Source(
     val versionedFile: String,
     @JsonProperty("acme_server_url")
     val acmeServerURL: String,
+    @JsonProperty("certbot_config_dir")
+    val certbotConfigDir: String = "/",
 )
