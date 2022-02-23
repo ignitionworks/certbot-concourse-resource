@@ -7,4 +7,6 @@ data class Source(
     val bucket: String,
     @JsonProperty("versioned_file")
     val versionedFile: String,
+    @JsonProperty("acme_server_url")
+    val acmeServerURL: String,
 )
