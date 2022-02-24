@@ -1,9 +1,5 @@
 package works.ignition.certbotresource.out
 
-import com.google.cloud.ReadChannel
-import com.google.cloud.storage.Blob
-import com.google.cloud.storage.Storage
-import com.google.cloud.storage.StorageOptions
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream
 import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream
@@ -11,7 +7,6 @@ import org.apache.commons.compress.utils.IOUtils
 import works.ignition.certbotresource.Metadatum
 import works.ignition.certbotresource.Version
 import java.io.*
-import java.nio.channels.Channels
 
 fun decompress(inputStream: InputStream, out: File?) {
     TarArchiveInputStream(GzipCompressorInputStream(inputStream))
@@ -31,13 +26,8 @@ fun decompress(inputStream: InputStream, out: File?) {
         }
 }
 
-fun process(request: Request): Response {
-    println("versioned file: ${request.source.versionedFile}")
-    val storage: Storage = StorageOptions.getDefaultInstance().service
-    val blob: Blob = storage.get(request.source.bucket, request.source.versionedFile)
-    val reader: ReadChannel = blob.reader()
-    val input: InputStream = Channels.newInputStream(reader)
-    decompress(inputStream = input, out = File(request.source.certbotConfigDir))
+fun process(storage: works.ignition.certbotresource.storage.Storage, request: Request): Response {
+    decompress(inputStream = ByteArrayInputStream(storage.read()), out = File(request.source.certbotConfigDir))
 
     val certbotProcess = Runtime.getRuntime().exec(
         arrayOf(

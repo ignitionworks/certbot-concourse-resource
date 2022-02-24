@@ -31,3 +31,7 @@ compileTestKotlin.kotlinOptions {
 application {
     mainClass.set("works.ignition.certbotresource.MainKt")
 }
+
+tasks.withType<Test> {
+    useJUnitPlatform()
+}
