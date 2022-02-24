@@ -1,5 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
+defaultTasks("build", "createOutScript", "createCheckScript")
+
 plugins {
     kotlin("jvm") version "1.6.10"
     application
@@ -28,10 +30,20 @@ compileTestKotlin.kotlinOptions {
     jvmTarget = "1.8"
 }
 
-application {
-    mainClass.set("works.ignition.certbotresource.MainKt")
+tasks.register("createOutScript", CreateStartScripts::class.java) {
+    applicationName = "out"
+    mainClass.set("works.ignition.certbotresource.out.OutKt")
+    outputDir = tasks.startScripts.get().outputDir
+    classpath = tasks.startScripts.get().classpath
+    tasks.startScripts.get().dependsOn(this)
 }
 
-tasks.withType<Test> {
-    useJUnitPlatform()
+tasks.register("createCheckScript", CreateStartScripts::class.java) {
+    applicationName = "check"
+    mainClass.set("works.ignition.certbotresource.check.CheckKt")
+    outputDir = tasks.startScripts.get().outputDir
+    classpath = tasks.startScripts.get().classpath
+    tasks.startScripts.get().dependsOn(this)
 }
+
+tasks.withType(Test::useJUnitPlatform)
