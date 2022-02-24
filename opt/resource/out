@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+/certbot-concourse-resource/bin/certbot-concourse-resource out
