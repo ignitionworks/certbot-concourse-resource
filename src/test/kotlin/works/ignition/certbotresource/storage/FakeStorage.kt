@@ -1,20 +1,21 @@
 package works.ignition.certbotresource.storage
 
 class FakeStorage(
-    private var currentVersion: Int = 0,
-    private var value: ByteArray? = null
+    private var versions: MutableList<Pair<Int, ByteArray>> = emptyList<Pair<Int, ByteArray>>().toMutableList(),
 ) : Storage {
-    override fun read(): ByteArray? = value
+    override fun read(version: String): ByteArray? =
+        versions.find { v -> v.first.toString() == version }
+        ?.second
 
-    override fun store(bytes: ByteArray) {
-        value = bytes
-        currentVersion += 1
-    }
+    override fun store(bytes: ByteArray): String =
+        Pair(versions.lastOrNull()
+            ?.let { it.first + 1 } ?: 1, bytes)
+            .also { versions.add(it) }
+            .first.toString()
 
-    override fun versions(): List<String> = (0..currentVersion).map(Int::toString)
+    override fun versions(): List<String> = versions.map { it.first.toString() }
 
     override fun delete() {
-        currentVersion = 0
-        value = null
+        versions.clear()
     }
 }

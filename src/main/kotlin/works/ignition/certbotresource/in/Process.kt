@@ -5,7 +5,7 @@ import works.ignition.certbotresource.storage.Storage
 import java.nio.file.Path
 
 fun process(compressor: Compressor, storage: Storage, destDir: Path, request: Request): Response =
-    storage.read()?.inputStream()
+    storage.read(request.version.generation)?.inputStream()
         ?.let { stream ->
             compressor.decompress(inputStream = stream, out = destDir)
             return Success(

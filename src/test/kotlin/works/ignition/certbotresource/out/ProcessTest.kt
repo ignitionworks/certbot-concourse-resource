@@ -35,7 +35,7 @@ internal class ProcessTest {
             ),
             response
         )
-        assertEquals(listOf("0", "1"), storage.versions())
+        assertEquals(listOf("1"), storage.versions())
     }
 
     @Test
@@ -58,10 +58,7 @@ internal class ProcessTest {
             )
         )
 
-        assertEquals(
-            Failure,
-            response
-        )
-        assertEquals(listOf("0"), storage.versions())
+        assertEquals(Failure, response)
+        assert(storage.versions().isEmpty())
     }
 }

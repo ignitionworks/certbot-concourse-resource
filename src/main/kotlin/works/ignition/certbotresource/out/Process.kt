@@ -13,12 +13,13 @@ fun process(
     request: Request
 ): Response {
     val letsencryptDir = File(request.source.certbotConfigDir).toPath()
-
-    storage.read()?.let { contents ->
-        compressor.decompress(
-            inputStream = ByteArrayInputStream(contents),
-            out = letsencryptDir
-        )
+    storage.versions().lastOrNull()?.let { latestVersion ->
+        storage.read(latestVersion)?.let { contents ->
+            compressor.decompress(
+                inputStream = ByteArrayInputStream(contents),
+                out = letsencryptDir
+            )
+        }
     }
 
     certbotProcessBuilder.start().waitFor().let { exitCode ->

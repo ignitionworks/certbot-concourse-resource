@@ -14,7 +14,7 @@ import kotlin.io.path.readText
 
 internal class ProcessTest {
     @Test
-    internal fun `unpacks the tarball inside the provided dir`() {
+    internal fun `unpacks the tarball at correct version inside the provided dir`() {
         val compressor = ShellOutCompressor()
         val storage = FakeStorage()
 
@@ -29,7 +29,8 @@ internal class ProcessTest {
             input = fixtureRoot.resolve("input"),
             output = fixtureTarball
         )
-        storage.store(fixtureTarball.toFile().readBytes())
+        val expectedGeneration = storage.store(fixtureTarball.toFile().readBytes())
+        storage.store("some-junk-that-isn't-a-tarball".toByteArray())
 
         val request = Request(
             source = Source(
@@ -38,13 +39,11 @@ internal class ProcessTest {
                 versionedFile = "fake-obj",
                 acmeServerURL = "https://not.called.in.this.test"
             ),
-            version = Version("1")
+            version = Version(expectedGeneration)
         )
 
         assertEquals(
-            Success(
-                version = Version("1"),
-            ),
+            Success(Version(expectedGeneration)),
             process(compressor, storage, destDir, request)
         )
 
