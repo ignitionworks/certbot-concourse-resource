@@ -1,6 +1,5 @@
 package works.ignition.certbotresource.out
 
-import works.ignition.certbotresource.Metadatum
 import works.ignition.certbotresource.Version
 import works.ignition.certbotresource.compression.Compressor
 import java.io.ByteArrayInputStream

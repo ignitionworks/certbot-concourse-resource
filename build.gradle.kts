@@ -38,6 +38,14 @@ tasks.register("createOutScript", CreateStartScripts::class.java) {
     tasks.startScripts.get().dependsOn(this)
 }
 
+tasks.register("createInScript", CreateStartScripts::class.java) {
+    applicationName = "out"
+    mainClass.set("works.ignition.certbotresource.in.InKt")
+    outputDir = tasks.startScripts.get().outputDir
+    classpath = tasks.startScripts.get().classpath
+    tasks.startScripts.get().dependsOn(this)
+}
+
 tasks.register("createCheckScript", CreateStartScripts::class.java) {
     applicationName = "check"
     mainClass.set("works.ignition.certbotresource.check.CheckKt")

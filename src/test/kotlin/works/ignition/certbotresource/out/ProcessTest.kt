@@ -2,7 +2,6 @@ package works.ignition.certbotresource.out
 
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
-import works.ignition.certbotresource.Metadatum
 import works.ignition.certbotresource.Source
 import works.ignition.certbotresource.Version
 import works.ignition.certbotresource.compression.ShellOutCompressor
