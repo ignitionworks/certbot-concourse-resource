@@ -1,6 +1,6 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-defaultTasks("build", "createOutScript", "createCheckScript")
+defaultTasks("build", "createOutScript", "createCheckScript", "createInScript")
 
 plugins {
     kotlin("jvm") version "1.6.10"
@@ -39,7 +39,7 @@ tasks.register("createOutScript", CreateStartScripts::class.java) {
 }
 
 tasks.register("createInScript", CreateStartScripts::class.java) {
-    applicationName = "out"
+    applicationName = "in"
     mainClass.set("works.ignition.certbotresource.in.InKt")
     outputDir = tasks.startScripts.get().outputDir
     classpath = tasks.startScripts.get().classpath
