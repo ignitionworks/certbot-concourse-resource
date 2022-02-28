@@ -1,9 +1,11 @@
-package works.ignition.certbotresource.`in`
+package works.ignition.certbotresource
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import works.ignition.certbotresource.Source
-import works.ignition.certbotresource.Version
+import works.ignition.certbotresource.`in`.Failure
+import works.ignition.certbotresource.`in`.Request
+import works.ignition.certbotresource.`in`.Success
+import works.ignition.certbotresource.`in`.`in`
 import works.ignition.certbotresource.compression.ShellOutCompressor
 import works.ignition.certbotresource.storage.FakeStorage
 import java.io.File
@@ -12,7 +14,7 @@ import kotlin.io.path.createDirectory
 import kotlin.io.path.createTempDirectory
 import kotlin.io.path.readText
 
-internal class ProcessTest {
+internal class InTest {
     @Test
     internal fun `unpacks the tarball at correct version inside the provided dir`() {
         val compressor = ShellOutCompressor()
@@ -44,7 +46,7 @@ internal class ProcessTest {
 
         assertEquals(
             Success(Version(expectedGeneration)),
-            process(compressor, storage, destDir, request)
+            `in`(compressor, storage, destDir, request)
         )
 
         assertEquals(
@@ -71,7 +73,7 @@ internal class ProcessTest {
 
         assertEquals(
             Failure("Couldn't find object 'fake-obj' in storage"),
-            process(compressor, storage, destDir, request)
+            `in`(compressor, storage, destDir, request)
         )
     }
 }

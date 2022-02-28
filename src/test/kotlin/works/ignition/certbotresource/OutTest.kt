@@ -1,18 +1,17 @@
-package works.ignition.certbotresource.out
+package works.ignition.certbotresource
 
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
-import works.ignition.certbotresource.Source
-import works.ignition.certbotresource.Version
 import works.ignition.certbotresource.compression.ShellOutCompressor
+import works.ignition.certbotresource.out.*
 import works.ignition.certbotresource.storage.FakeStorage
 
-internal class ProcessTest {
+internal class OutTest {
     @Test
     internal fun `missing blobs are created`() {
         val storage = FakeStorage()
         val compressor = ShellOutCompressor()
-        val response = process(
+        val response = out(
             compressor,
             storage,
             ProcessBuilder("/bin/true"),
@@ -42,7 +41,7 @@ internal class ProcessTest {
     internal fun `when certbot fails, no new version is created`() {
         val storage = FakeStorage()
         val compressor = ShellOutCompressor()
-        val response = process(
+        val response = out(
             compressor,
             storage,
             ProcessBuilder("/bin/false"),

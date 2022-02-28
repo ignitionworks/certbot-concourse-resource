@@ -1,12 +1,11 @@
-package works.ignition.certbotresource.check
+package works.ignition.certbotresource
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import works.ignition.certbotresource.Source
-import works.ignition.certbotresource.Version
+import works.ignition.certbotresource.check.Request
 import works.ignition.certbotresource.storage.FakeStorage
 
-class ProcessTest {
+class CheckTest {
     @Test
     internal fun `returns versions after and including the one provided`() {
         val storage = FakeStorage()
@@ -31,7 +30,7 @@ class ProcessTest {
                 Version("3"),
                 Version("4"),
             ),
-            process(storage, request)
+            works.ignition.certbotresource.check.check(storage, request)
         )
     }
 
@@ -57,7 +56,7 @@ class ProcessTest {
             listOf(
                 Version("4"),
             ),
-            process(storage, request)
+            works.ignition.certbotresource.check.check(storage, request)
         )
     }
 }
