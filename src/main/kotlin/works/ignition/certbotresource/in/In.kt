@@ -23,7 +23,6 @@ fun main(args: Array<String>) {
                 )
             )
     )
-
 }
 
 fun `in`(compressor: Compressor, storage: Storage, destDir: Path, request: Request): Response =
