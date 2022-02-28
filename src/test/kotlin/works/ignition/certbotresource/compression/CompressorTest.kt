@@ -29,4 +29,10 @@ abstract class CompressorTest(private val compressor: Compressor) {
             ).readText(charset = Charsets.UTF_8)
         )
     }
+
+    @Test
+    internal fun `fails if the input isn't a tarball`() {
+        val root: Path = createTempDirectory(prefix = "certbotcompressionnottarball")
+        assertEquals(Failure, compressor.decompress("".byteInputStream(), root))
+    }
 }

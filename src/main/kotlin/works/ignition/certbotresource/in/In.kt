@@ -29,9 +29,13 @@ fun main(args: Array<String>) {
 fun `in`(compressor: Compressor, storage: Storage, destDir: Path, request: Request): Response =
     storage.read(request.version.generation)?.inputStream()
         ?.let { stream ->
-            compressor.decompress(inputStream = stream, out = destDir)
-            return Success(
-                version = request.version,
-            )
+            when (compressor.decompress(inputStream = stream, out = destDir)) {
+                works.ignition.certbotresource.compression.Failure -> Failure(
+                    "Couldn't decompress '${request.source.versionedFile}'"
+                )
+                works.ignition.certbotresource.compression.Success -> Success(
+                    version = request.version,
+                )
+            }
         }
         ?: Failure("Couldn't find object '${request.source.versionedFile}' in storage")

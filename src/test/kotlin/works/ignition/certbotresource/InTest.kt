@@ -76,4 +76,28 @@ internal class InTest {
             `in`(compressor, storage, destDir, request)
         )
     }
+
+    @Test
+    internal fun `fails if decompression fails`() {
+        val compressor = ShellOutCompressor()
+        val storage = FakeStorage()
+        val destDir: Path = createTempDirectory(prefix = "decompressionfail")
+
+        storage.store("not-a-tarball".toByteArray())
+
+        val request = Request(
+            source = Source(
+                email = "me@example.com",
+                bucket = "iw-justatest",
+                versionedFile = "not-a-tarball",
+                acmeServerURL = "https://not.called.in.this.test"
+            ),
+            version = Version("1")
+        )
+
+        assertEquals(
+            Failure("Couldn't decompress 'not-a-tarball'"),
+            `in`(compressor, storage, destDir, request)
+        )
+    }
 }
