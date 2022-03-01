@@ -7,22 +7,22 @@ import works.ignition.certbotresource.storage.GCS
 import works.ignition.certbotresource.storage.Storage
 import java.io.File
 import java.nio.file.Path
+import kotlin.system.exitProcess
 
 fun main(args: Array<String>) {
     val request = jacksonObjectMapper().readValue(readln(), Request::class.java)
     val workingDir = args[0]
-
-    println(
-        jacksonObjectMapper()
-            .writeValueAsString(
-                `in`(
-                    ShellOutCompressor(),
-                    GCS(bucket = request.source.bucket, obj = request.source.versionedFile),
-                    File(workingDir).toPath(),
-                    request
-                )
-            )
+    val response = `in`(
+        ShellOutCompressor(),
+        GCS(bucket = request.source.bucket, obj = request.source.versionedFile),
+        File(workingDir).toPath(),
+        request
     )
+    println(jacksonObjectMapper().writeValueAsString(response))
+    when (response) {
+        is Success -> exitProcess(0)
+        is Failure -> exitProcess(1)
+    }
 }
 
 fun `in`(compressor: Compressor, storage: Storage, destDir: Path, request: Request): Response =

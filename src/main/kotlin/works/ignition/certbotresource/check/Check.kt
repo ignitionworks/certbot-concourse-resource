@@ -8,12 +8,8 @@ import works.ignition.certbotresource.storage.Storage
 fun main() {
     val request = jacksonObjectMapper().readValue(readln(), Request::class.java)
     val storage = GCS(bucket = request.source.bucket, obj = request.source.versionedFile)
-    println(
-        jacksonObjectMapper()
-            .writeValueAsString(
-                check(storage, request)
-            )
-    )
+    val versions = check(storage, request)
+    println(jacksonObjectMapper().writeValueAsString(versions))
 }
 
 fun check(storage: Storage, request: Request): List<Version> =

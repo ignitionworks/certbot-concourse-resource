@@ -8,31 +8,31 @@ import works.ignition.certbotresource.storage.GCS
 import java.io.ByteArrayInputStream
 import java.io.File
 import kotlin.io.path.readBytes
+import kotlin.system.exitProcess
 
 fun main() {
     val request = jacksonObjectMapper().readValue(readln(), Request::class.java)
-
-    println(
-        jacksonObjectMapper()
-            .writeValueAsString(
-                out(
-                    ShellOutCompressor(),
-                    GCS(request.source.bucket, request.source.versionedFile),
-                    ProcessBuilder(
-                        "certbot",
-                        "certonly",
-                        "--non-interactive",
-                        "--dns-google",
-                        "--agree-tos",
-                        "--email=${request.source.email}",
-                        "--domains=${request.params.domains.joinToString(",")}"
-                    )
-                        .redirectOutput(ProcessBuilder.Redirect.appendTo(File("/dev/stderr")))
-                        .redirectError(ProcessBuilder.Redirect.INHERIT),
-                    request
-                )
-            )
+    val response = out(
+        ShellOutCompressor(),
+        GCS(request.source.bucket, request.source.versionedFile),
+        ProcessBuilder(
+            "certbot",
+            "certonly",
+            "--non-interactive",
+            "--dns-google",
+            "--agree-tos",
+            "--email=${request.source.email}",
+            "--domains=${request.params.domains.joinToString(",")}"
+        )
+            .redirectOutput(ProcessBuilder.Redirect.appendTo(File("/dev/stderr")))
+            .redirectError(ProcessBuilder.Redirect.INHERIT),
+        request
     )
+    println(jacksonObjectMapper().writeValueAsString(response))
+    when (response) {
+        is Success -> exitProcess(0)
+        is Failure -> exitProcess(1)
+    }
 }
 
 fun out(
