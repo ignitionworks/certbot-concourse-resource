@@ -9,4 +9,7 @@ data class Success(
     val metadata: List<Metadatum>
 ) : Response()
 
-object Failure : Response()
+data class Failure(
+    val version: Version?,
+    val metadata: List<Metadatum>
+) : Response()

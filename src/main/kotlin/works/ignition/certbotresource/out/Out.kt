@@ -64,7 +64,10 @@ fun out(
                 )
             )
         } else {
-            Failure
+            Failure(
+                version = storage.versions().lastOrNull()?.let(::Version),
+                metadata = emptyList()
+            )
         }
     }
 }
