@@ -21,7 +21,10 @@ fun main(args: Array<String>) {
     println(jacksonObjectMapper().writeValueAsString(response))
     when (response) {
         is Success -> exitProcess(0)
-        is Failure -> exitProcess(1)
+        is Failure -> {
+            System.err.println("Failed: ${response.reason}")
+            exitProcess(1)
+        }
     }
 }
 
