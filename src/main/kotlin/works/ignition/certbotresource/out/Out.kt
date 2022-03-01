@@ -41,7 +41,6 @@ fun out(
     certbotProcessBuilder: ProcessBuilder,
     request: Request
 ): Response {
-    val letsencryptDir = File(request.source.certbotConfigDir).toPath()
     storage.versions().lastOrNull()?.let { latestVersion ->
         storage.read(latestVersion)?.let { contents ->
             compressor.decompress(
@@ -55,7 +54,10 @@ fun out(
         return if (exitCode == 0) {
             val tarball = File("/tmp/letsencrypt.tar.gz").toPath()
 
-            compressor.compress(input = letsencryptDir, output = tarball)
+            compressor.compress(
+                input = File(request.source.certbotConfigDir).toPath(),
+                output = tarball
+            )
             storage.store(tarball.readBytes())
             Success(
                 version = Version(storage.versions().last()),
