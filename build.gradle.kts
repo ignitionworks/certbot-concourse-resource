@@ -12,7 +12,6 @@ dependencies {
     implementation(kotlin("stdlib-jdk8"))
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.13.1")
     implementation("com.google.cloud:google-cloud-storage")
-    implementation("org.apache.commons:commons-compress:1.21")
     testImplementation("org.junit.jupiter:junit-jupiter:5.8.2")
 }
 
