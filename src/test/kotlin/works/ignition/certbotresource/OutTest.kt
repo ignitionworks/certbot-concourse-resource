@@ -60,7 +60,7 @@ internal class OutTest {
             )
         )
 
-        val unpackDir: Path = createTempDirectory(prefix = "outtest")
+        val certbotDir: Path = createTempDirectory(prefix = "outtest")
 
         val response = out(
             compressor,
@@ -73,7 +73,7 @@ internal class OutTest {
                     bucket = "iw-letsencrypt",
                     versionedFile = "some-missing-file",
                     acmeServerURL = "https://acme-staging-v02.api.letsencrypt.org/directory",
-                    certbotConfigDir = unpackDir.toString()
+                    certbotConfigDir = certbotDir.toString()
                 )
             )
         )

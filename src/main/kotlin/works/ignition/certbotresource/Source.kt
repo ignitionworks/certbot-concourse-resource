@@ -10,5 +10,7 @@ data class Source(
     @JsonProperty("acme_server_url")
     val acmeServerURL: String,
     @JsonProperty("certbot_config_dir")
-    val certbotConfigDir: String = "/",
+    val certbotConfigDir: String = "/etc/letsencrypt",
+    @JsonProperty("certbot_unpack_dir")
+    val certbotUnpackDir: String = "/"
 )

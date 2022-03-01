@@ -46,7 +46,7 @@ fun out(
         storage.read(latestVersion)?.let { contents ->
             compressor.decompress(
                 inputStream = ByteArrayInputStream(contents),
-                out = letsencryptDir
+                out = File(request.source.certbotUnpackDir).toPath()
             )
         }
     }
