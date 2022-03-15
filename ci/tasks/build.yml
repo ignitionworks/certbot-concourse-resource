@@ -10,7 +10,7 @@ inputs:
 - name: repo
 
 outputs:
-- name: build
+- name: repo-for-container-image
 
 run:
   path: sh
@@ -19,7 +19,8 @@ run:
   - |-
     cd repo
     ./gradlew
-    cp -a build/. ../build/
+    cp -a build/. ../repo-for-container-image/build/
+    cp Dockerfile ../repo-for-container-image/
 
 caches:
 - path: ../../../root/.gradle
