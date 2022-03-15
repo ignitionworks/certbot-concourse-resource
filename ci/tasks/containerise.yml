@@ -4,11 +4,18 @@ image_resource:
   type: registry-image
   source:
     repository: concourse/oci-build-task
-    tag: master@sha256:2a3804ca06b1c0dcede86487c8dd1b0e414ceea6c7aa2f58fcbe142315b574e1
+  version:
+    digest: sha256:2a3804ca06b1c0dcede86487c8dd1b0e414ceea6c7aa2f58fcbe142315b574e1
+
+params:
+  DOCKERFILE: repo/Dockerfile
 
 inputs:
 - name: build
 - name: repo
+
+outputs:
+- name: image
 
 run:
   path: build
