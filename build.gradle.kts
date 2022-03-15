@@ -2,6 +2,8 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 defaultTasks("build", "createOutScript", "createCheckScript", "createInScript")
 
+version = file("VERSION").readText().trim()
+
 plugins {
     kotlin("jvm") version "1.6.10"
     application
