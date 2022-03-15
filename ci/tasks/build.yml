@@ -1,0 +1,25 @@
+platform: linux
+
+image_resource:
+  type: registry-image
+  source:
+    repository: openjdk
+    tag: 11.0.14.1-jdk
+
+inputs:
+- name: repo
+
+outputs:
+- name: build
+
+run:
+  path: sh
+  args:
+  - -euc
+  - |-
+    cd repo
+    ./gradlew
+    cp -a build/. ../build/
+
+caches:
+- path: ../../../root/.gradle
