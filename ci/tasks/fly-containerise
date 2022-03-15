@@ -2,13 +2,14 @@
 
 cwd="$(cd "$(dirname "$0")" && pwd)"
 root="$cwd/../.."
-build_dir=$(mktemp -d -t flycontainerise.XXXXX)
-cp -a "$root/build/." "$build_dir/"
+repo_dir=$(mktemp -d -t flycontainerise.XXXXX)
+mkdir -p "$repo_dir/build/distributions"
+cp -a "$root/build/distributions/." "$repo_dir/build/distributions/"
+cp "$root/Dockerfile" "$repo_dir/"
 
 fly \
   --target ci \
   execute \
   --privileged \
   --config "$cwd/containerise.yml" \
-  --input build="$build_dir" \
-  --input repo="$root"
+  --input repo="$repo_dir"

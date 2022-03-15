@@ -7,6 +7,9 @@ image_resource:
   version:
     digest: sha256:2a3804ca06b1c0dcede86487c8dd1b0e414ceea6c7aa2f58fcbe142315b574e1
 
+params:
+  CONTEXT: repo
+
 inputs:
 - name: repo
 
