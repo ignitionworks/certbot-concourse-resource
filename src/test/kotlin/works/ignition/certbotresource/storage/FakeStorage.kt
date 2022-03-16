@@ -18,4 +18,7 @@ class FakeStorage(
     override fun delete() {
         versions.clear()
     }
+
+    override fun isLatest(bytes: ByteArray): Boolean =
+        read(versions().last()).contentEquals(bytes)
 }

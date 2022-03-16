@@ -1,7 +1,6 @@
 package works.ignition.certbotresource.storage
 
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertNull
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import kotlin.text.Charsets.UTF_8
@@ -16,11 +15,18 @@ abstract class StorageTest(private val storage: Storage) {
     }
 
     @Test
+    internal fun `content can be compared with what's stored`() {
+        storage.store("first-version\n\n".toByteArray())
+        assert(storage.isLatest("first-version\n\n".toByteArray()))
+        assertFalse(storage.isLatest("first-bersion\n\n".toByteArray()))
+    }
+
+    @Test
     internal fun `can produce versions`() {
         val initialVersions = storage.versions()
-        storage.store("first-version".byteInputStream().readAllBytes())
+        storage.store("first-version".toByteArray())
         assertEquals(initialVersions.size + 1, storage.versions().size)
-        storage.store("second-version".byteInputStream().readAllBytes())
+        storage.store("second-version".toByteArray())
         assertEquals(initialVersions.size + 2, storage.versions().size)
     }
 
