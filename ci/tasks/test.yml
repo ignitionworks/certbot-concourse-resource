@@ -12,6 +12,7 @@ inputs:
 run:
   path: ./gradlew
   args: [test]
+  dir: repo
 
 caches:
 - path: ../../../root/.gradle
