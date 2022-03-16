@@ -33,7 +33,7 @@ resources:
   source:
     email: accounts@ignition.works
     bucket: iw-letsencrypt
-    versioned_file: justatest-deleteme.tar.gz
+    versioned_file: justatest-deleteme.tar
     acme_server_url: https://acme-staging-v02.api.letsencrypt.org/directory
 
 resource_types:
