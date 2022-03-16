@@ -4,9 +4,12 @@ import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import works.ignition.certbotresource.Version
 import works.ignition.certbotresource.compression.Compressor
 import works.ignition.certbotresource.compression.ShellOutCompressor
+import works.ignition.certbotresource.exec.*
 import works.ignition.certbotresource.storage.GCS
+import works.ignition.certbotresource.storage.Storage
 import java.io.ByteArrayInputStream
 import java.io.File
+import kotlin.io.path.Path
 import kotlin.io.path.readBytes
 import kotlin.system.exitProcess
 
@@ -38,7 +41,7 @@ fun main() {
 
 fun out(
     compressor: Compressor,
-    storage: works.ignition.certbotresource.storage.Storage,
+    storage: Storage,
     certbotProcessBuilder: ProcessBuilder,
     request: Request
 ): Response {
@@ -51,32 +54,54 @@ fun out(
         }
     }
 
-    certbotProcessBuilder.start().waitFor().let { exitCode ->
-        return if (exitCode == 0) {
-            val latestGeneration = storage.versions().lastOrNull()
-            storage.read(latestGeneration)
-            val tarball = File("/tmp/letsencrypt.tar").toPath()
-
-            compressor.compress(
-                input = File(request.source.certbotConfigDir).toPath(),
-                output = tarball
-            )
-
-            val localBytes = tarball.readBytes()
-            if (!storage.isLatest(localBytes)) {
-                storage.store(localBytes)
-            }
-            Success(
-                version = Version(storage.versions().last()),
-                metadata = listOf(
-                    Metadata(name = "domains", value = request.params.domains.joinToString(", "))
-                )
-            )
-        } else {
+    return when (ShellOutComparisonRunner().execute(
+        certbotProcessBuilder,
+        Path(request.source.certbotConfigDir)
+    )) {
+        ExecutionFailure ->
             Failure(
                 version = storage.versions().lastOrNull()?.let(::Version),
                 metadata = emptyList()
             )
+
+        SuccessWithChange -> {
+            Success(
+                version = Version(store(compressor, request, storage)),
+                metadata = listOf(
+                    Metadata(name = "domains", value = request.params.domains.joinToString(", "))
+                )
+            )
+        }
+
+        SuccessWithoutChange -> {
+            storage.versions().lastOrNull()
+                ?.run(success(request))
+                ?: store(compressor, request, storage)
+                    .run(success(request))
         }
     }
+}
+
+private fun success(request: Request): String.() -> Success = {
+    Success(
+        version = Version(this),
+        metadata = listOf(
+            Metadata(name = "domains", value = request.params.domains.joinToString(", "))
+        )
+    )
+}
+
+private fun store(
+    compressor: Compressor,
+    request: Request,
+    storage: Storage
+): String {
+    val tarball = File("/tmp/letsencrypt.tar").toPath()
+
+    compressor.compress(
+        input = File(request.source.certbotConfigDir).toPath(),
+        output = tarball
+    )
+
+    return storage.store(tarball.readBytes())
 }

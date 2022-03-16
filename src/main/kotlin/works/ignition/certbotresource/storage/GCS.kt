@@ -19,9 +19,6 @@ class GCS(val bucket: String, val obj: String) : Storage {
         blob()?.delete()
     }
 
-    override fun isLatest(bytes: ByteArray): Boolean =
-        read(versions().last()).contentEquals(bytes)
-
     private fun bucket(): Bucket = gcs.get(bucket)
     private fun blobInfo(): BlobInfo = BlobInfo.newBuilder(blobId()).build()
     private fun blobId(): BlobId = BlobId.of(bucket, obj)

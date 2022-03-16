@@ -15,13 +15,6 @@ abstract class StorageTest(private val storage: Storage) {
     }
 
     @Test
-    internal fun `content can be compared with what's stored`() {
-        storage.store("first-version\n\n".toByteArray())
-        assert(storage.isLatest("first-version\n\n".toByteArray()))
-        assertFalse(storage.isLatest("first-bersion\n\n".toByteArray()))
-    }
-
-    @Test
     internal fun `can produce versions`() {
         val initialVersions = storage.versions()
         storage.store("first-version".toByteArray())
