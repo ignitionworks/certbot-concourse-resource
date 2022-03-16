@@ -63,7 +63,7 @@ fun out(
             Success(
                 version = Version(storage.versions().last()),
                 metadata = listOf(
-                    ListMetadata(name = "domains", value = request.params.domains)
+                    Metadata(name = "domains", value = request.params.domains)
                 )
             )
         } else {

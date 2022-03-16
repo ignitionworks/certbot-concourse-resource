@@ -6,10 +6,10 @@ sealed class Response
 
 data class Success(
     val version: Version,
-    val metadata: List<ListMetadata>
+    val metadata: List<Metadata<List<String>>>
 ) : Response()
 
 data class Failure(
     val version: Version?,
-    val metadata: List<ListMetadata>
+    val metadata: List<Metadata<List<String>>>
 ) : Response()

@@ -1,6 +1,6 @@
 package works.ignition.certbotresource.out
 
-data class ListMetadata(
+data class Metadata<T>(
     val name: String,
-    val value: List<String>
+    val value: T
 )
