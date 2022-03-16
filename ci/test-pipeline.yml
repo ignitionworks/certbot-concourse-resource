@@ -8,6 +8,24 @@ jobs:
       - yetanothertest.cloud.ignition.works
       - mynewone.cloud.ignition.works
 
+- name: a-follow-on-job
+  plan:
+  - get: certificates
+    trigger: true
+    passed: [issue]
+  - task: say-hi
+    config:
+      platform: linux
+
+      image_resource:
+        type: registry-image
+        source:
+          repository: alpine
+
+      run:
+        path: echo
+        args: [hi]
+
 resources:
 
 - name: certificates
