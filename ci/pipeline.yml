@@ -8,7 +8,7 @@ jobs:
   - task: test
     file: repo/ci/tasks/test.yml
 
-- name: build
+- name: ship
   serial_groups: [gcs-access]
   plan:
   - get: repo
