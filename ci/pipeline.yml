@@ -1,6 +1,7 @@
 jobs:
 
 - name: test
+  serial_groups: [gcs-access]
   plan:
   - get: repo
     trigger: true
@@ -8,6 +9,7 @@ jobs:
     file: repo/ci/tasks/test.yml
 
 - name: build
+  serial_groups: [gcs-access]
   plan:
   - get: repo
     resource: repo-release
