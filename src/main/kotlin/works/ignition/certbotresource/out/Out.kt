@@ -19,6 +19,7 @@ fun main() {
             "certbot",
             "certonly",
             "--non-interactive",
+            "--expand",
             "--dns-google",
             "--agree-tos",
             "--email=${request.source.email}",
