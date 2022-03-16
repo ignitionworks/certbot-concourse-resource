@@ -24,3 +24,5 @@ resource_types:
   source:
     repository: europe-docker.pkg.dev/concise-booking-337212/ignitionworks/certbot-concourse-resource
     tag: 0.0.28
+    username: ((image_pusher.username))
+    password: ((image_pusher.password))
