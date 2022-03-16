@@ -20,5 +20,5 @@ class FakeStorage(
     }
 
     override fun isLatest(bytes: ByteArray): Boolean =
-        read(versions().last()).contentEquals(bytes)
+        read(versions().lastOrNull()).contentEquals(bytes)
 }
