@@ -6,6 +6,7 @@ jobs:
     params:
       domains:
       - yetanothertest.cloud.ignition.works
+      - mynewone.cloud.ignition.works
 
 resources:
 
@@ -23,6 +24,6 @@ resource_types:
   type: registry-image
   source:
     repository: europe-docker.pkg.dev/concise-booking-337212/ignitionworks/certbot-concourse-resource
-    tag: 0.0.29
+    tag: 0.0.30
     username: ((image_pusher.username))
     password: ((image_pusher.password))
