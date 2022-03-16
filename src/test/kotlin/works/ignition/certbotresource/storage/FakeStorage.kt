@@ -3,7 +3,7 @@ package works.ignition.certbotresource.storage
 class FakeStorage(
     private var versions: MutableList<Pair<Int, ByteArray>> = emptyList<Pair<Int, ByteArray>>().toMutableList(),
 ) : Storage {
-    override fun read(version: String): ByteArray? =
+    override fun read(version: String?): ByteArray? =
         versions.find { v -> v.first.toString() == version }
         ?.second
 

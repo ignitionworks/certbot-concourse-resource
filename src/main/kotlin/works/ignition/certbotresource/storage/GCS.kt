@@ -7,7 +7,7 @@ class GCS(val bucket: String, val obj: String) : Storage {
     private val gcs: com.google.cloud.storage.Storage =
         StorageOptions.getDefaultInstance().service
 
-    override fun read(version: String): ByteArray? = blobAt(version)?.getContent()
+    override fun read(version: String?): ByteArray? = version?.let { blobAt(it)?.getContent() }
     override fun store(bytes: ByteArray): String = gcs.create(blobInfo(), bytes).generation.toString()
 
     override fun versions(): List<String> =

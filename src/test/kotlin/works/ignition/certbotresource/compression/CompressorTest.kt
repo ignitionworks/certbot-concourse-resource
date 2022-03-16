@@ -7,6 +7,7 @@ import java.io.FileInputStream
 import java.nio.file.Path
 import kotlin.io.path.createDirectory
 import kotlin.io.path.createTempDirectory
+import kotlin.io.path.readBytes
 
 internal class ShellOutCompressorTest : CompressorTest(ShellOutCompressor())
 
