@@ -18,7 +18,7 @@ internal class OutTest {
             storage,
             ProcessBuilder("/bin/true"),
             Request(
-                params = Params(domains = listOf("some.domain")),
+                params = Params(domains = listOf("some.domain", "some.other.domain")),
                 source = Source(
                     email = "email@example.com",
                     bucket = "iw-letsencrypt",
@@ -32,7 +32,7 @@ internal class OutTest {
         assertEquals(
             Success(
                 version = Version("1"),
-                metadata = listOf(Metadata(name = "domains", value = listOf("some.domain")))
+                metadata = listOf(Metadata(name = "domains", value = "some.domain, some.other.domain"))
             ),
             response
         )
