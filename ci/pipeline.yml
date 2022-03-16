@@ -1,0 +1,33 @@
+jobs:
+
+- name: build
+  plan:
+  - get: repo
+    trigger: true
+  - task: build
+    file: repo/ci/tasks/build.yml
+  - task: containerise
+    privileged: true
+    input_mapping:
+      repo: repo-for-container-image
+    file: repo/ci/tasks/containerise.yml
+  - put: artifact-registry
+    params:
+      image: image/image.tar
+      additional_tags: repo/VERSION
+
+resources:
+
+- name: repo
+  type: git
+  icon: github
+  source:
+    uri: https://github.com/ignitionworks/certbot-concourse-resource
+
+- name: artifact-registry
+  type: registry-image
+  icon: docker
+  source:
+    repository: europe-docker.pkg.dev/concise-booking-337212/ignitionworks/certbot-concourse-resource
+    username: ((image_pusher.username))
+    password: ((image_pusher.password))

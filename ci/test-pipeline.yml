@@ -1,0 +1,26 @@
+jobs:
+
+- name: issue
+  plan:
+  - put: certificates
+    params:
+      domains:
+      - yetanothertest.cloud.ignition.works
+
+resources:
+
+- name: certificates
+  type: certbot
+  source:
+    email: accounts@ignition.works
+    bucket: iw-letsencrypt
+    versioned_file: justatest-deleteme.tar.gz
+    acme_server_url: https://acme-staging-v02.api.letsencrypt.org/directory
+
+resource_types:
+
+- name: certbot
+  type: registry-image
+  source:
+    repository: europe-docker.pkg.dev/concise-booking-337212/ignitionworks/certbot-concourse-resource
+    tag: 0.0.28
