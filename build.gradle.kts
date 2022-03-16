@@ -55,4 +55,6 @@ tasks.register("createCheckScript", CreateStartScripts::class.java) {
     tasks.startScripts.get().dependsOn(this)
 }
 
+tasks.startScripts.get().enabled = false
+
 tasks.withType(Test::useJUnitPlatform)
