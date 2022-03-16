@@ -32,7 +32,7 @@ internal class OutTest {
         assertEquals(
             Success(
                 version = Version("1"),
-                metadata = listOf(Metadatum(renewedDomains = listOf("some.domain")))
+                metadata = listOf(ListMetadata(name = "domains", value = listOf("some.domain")))
             ),
             response
         )
