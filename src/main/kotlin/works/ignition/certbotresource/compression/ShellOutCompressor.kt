@@ -6,7 +6,7 @@ import java.nio.file.Path
 
 class ShellOutCompressor : Compressor {
     override fun decompress(inputStream: InputStream, out: Path): DecompressionResult {
-        val builder = ProcessBuilder("tar", "-zx").directory(out.toFile())
+        val builder = ProcessBuilder("tar", "-x").directory(out.toFile())
             .redirectError(ProcessBuilder.Redirect.INHERIT)
             .redirectOutput(File("/dev/null"))
         val process = builder.start()
@@ -24,7 +24,7 @@ class ShellOutCompressor : Compressor {
     }
 
     override fun compress(input: Path, output: Path) {
-        val builder = ProcessBuilder("tar", "-zcf", output.toString(), input.toString())
+        val builder = ProcessBuilder("tar", "-cf", output.toString(), input.toString())
             .inheritIO()
         val process = builder.start()
         process.waitFor()
