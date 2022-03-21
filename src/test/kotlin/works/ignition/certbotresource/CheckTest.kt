@@ -59,4 +59,24 @@ class CheckTest {
             works.ignition.certbotresource.check.check(storage, request)
         )
     }
+
+    @Test
+    internal fun `returns empty list if there's no object in storage`() {
+        val storage = FakeStorage()
+
+        val request = Request(
+            source = Source(
+                email = "me@example.com",
+                bucket = "iw-justatest",
+                versionedFile = "fake-obj",
+                acmeServerURL = "https://not.called.in.this.test"
+            ),
+            version = null
+        )
+
+        assertEquals(
+            emptyList<Version>(),
+            works.ignition.certbotresource.check.check(storage, request)
+        )
+    }
 }

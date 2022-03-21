@@ -13,14 +13,17 @@ fun main() {
 }
 
 fun check(storage: Storage, request: Request): List<Version> =
-    if (request.version == null) {
-        listOf(Version(storage.versions().last()))
-    } else {
-        storage.versions().map(::Version).fold(Pair(false, emptyList<Version>())) { (begunCollecting, acc), version ->
-            if (begunCollecting || version.generation == request.version.generation) {
-                Pair(true, acc.plus(version))
-            } else {
-                Pair(false, acc)
-            }
-        }.second
-    }
+    request.version
+        ?.let {
+            storage.versions().map(::Version)
+                .fold(Pair(false, emptyList<Version>())) { (begunCollecting, acc), version ->
+                    if (begunCollecting || version.generation == it.generation) {
+                        Pair(true, acc.plus(version))
+                    } else {
+                        Pair(false, acc)
+                    }
+                }.second
+        }
+        ?: storage.versions().lastOrNull()
+            ?.let { listOf(Version(it)) }
+        ?: emptyList()
