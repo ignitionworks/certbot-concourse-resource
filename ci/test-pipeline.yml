@@ -7,6 +7,7 @@ jobs:
       domains:
       - yetanothertest.cloud.ignition.works
       - mynewone.cloud.ignition.works
+      - ohhi.cloud.ignition.works
 
 - name: a-follow-on-job
   plan:
@@ -16,6 +17,9 @@ jobs:
   - task: say-hi
     config:
       platform: linux
+
+      inputs:
+      - name: certificates
 
       image_resource:
         type: registry-image
@@ -42,6 +46,6 @@ resource_types:
   type: registry-image
   source:
     repository: europe-docker.pkg.dev/concise-booking-337212/ignitionworks/certbot-concourse-resource
-    tag: 0.0.33
+    tag: 0.0.38
     username: ((image_pusher.username))
     password: ((image_pusher.password))
