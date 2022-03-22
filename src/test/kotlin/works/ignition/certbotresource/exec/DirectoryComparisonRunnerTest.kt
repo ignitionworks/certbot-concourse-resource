@@ -6,9 +6,9 @@ import java.io.File
 import java.nio.file.Path
 import kotlin.io.path.createTempDirectory
 
-internal class ShellOutComparisonRunnerTest : DirectoryComparisonRunnerTest(ShellOutComparisonRunner())
+class DirectoryComparisonRunnerTest {
+    private var runner: DirectoryComparisonRunner = DirectoryComparisonRunner()
 
-abstract class DirectoryComparisonRunnerTest(private val runner: DirectoryComparisonRunner) {
     @Test
     internal fun `notices when command changes the watched dir`() {
         val dir: Path = createTempDirectory("dircomprunnertest")

@@ -54,7 +54,7 @@ fun out(
         }
     }
 
-    return when (ShellOutComparisonRunner().execute(
+    return when (DirectoryComparisonRunner().execute(
         certbotProcessBuilder,
         Path(request.source.certbotConfigDir)
     )) {
